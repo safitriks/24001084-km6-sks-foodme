@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Food App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_tab_home">Home</string>
+    <string name="title_tab_cart">Cart</string>
+    <string name="title_tab_profile">Profile</string>
+    <string name="text_name">Hi, Safitri !</string>
+    <string name="text_greetings">What do you want to eat today ?</string>
+    <string name="text_tittle_list">Our Menus</string>
+    <string name="text_tittle_categories">Categories</string>
+    <string name="hint_name">Name</string>
+    <string name="text_name_profile">Safitri</string>
+    <string name="text_hint_name">Name</string>
+    <string name="text_hint_username">Username</string>
+    <string name="text_username">Safitri Kurnia</string>
+    <string name="text_hint_email">Email</string>
+    <string name="text_email">safitri.suardini@gmail.com</string>
+    <string name="text_tittle_profile">Profile</string>
+    <string name="text_total_price">Tambahkan ke Keranjang - %1$s</string>
+    <string name="text_add_to_cart_success">Add to Cart Success !</string>
+    <string name="add_to_cart_failed">Add to Cart Failed !</string>
+    <string name="loading">Loading...</string>
+    <string name="text_location">Lokasi</string>
+    <string name="text_delivery_options">Delivery Options</string>
+    <string name="text_pick_up">Pick Up</string>
+    <string name="text_delivery">Delivery</string>
+    <string name="text_payment_options">Payment Options</string>
+    <string name="text_cash">Cash</string>
+    <string name="text_e_wallet">E-Wallet</string>
+    <string name="text_title_order_confirmation">Order Confirmation</string>
+    <string name="text_checkout">Checkout</string>
+    <string name="text_hint_notes">Notes :</string>
+    <string name="text_title_your_cart">Your Cart</string>
+    <string name="text_name_total_price">Total Price</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="total_quantity">x%s\n</string>
+    <string name="text_cart_is_empty">Cart is Empty !</string>
+    <string name="text_total_item">Total Price</string>
+    <string name="text_btn_close">Close</string>
+    <string name="text_done">Congratulations, you\'re done !</string>
+</resources>
