@@ -67,4 +67,5 @@
     <color name="grey_border">#CCC3C3C3</color>
     <color name="grey_background">#CCEDEDED</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="ff0000">#800E0E</color>
 </resources>

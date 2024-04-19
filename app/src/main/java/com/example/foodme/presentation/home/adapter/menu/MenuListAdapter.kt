@@ -12,8 +12,8 @@ import com.example.foodme.utils.ViewHolderBinder
 
 
 class MenuListAdapter(
-    private val listener: OnItemClickedListener<Menu>,
-    private val listMode: Int = MODE_GRID
+    var listMode: Int = MODE_GRID,
+    private val itemClick: (Menu) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -39,18 +39,20 @@ class MenuListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (listMode == MODE_GRID) MenuGridItemViewHolder(
+            itemClick,
             ItemMenuGridBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), listener
+            )
         ) else {
             MenuListItemViewHolder(
+                itemClick,
                 ItemMenuListBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                ), listener
+                )
             )
         }
     }
@@ -63,6 +65,3 @@ class MenuListAdapter(
     }
 }
 
-interface OnItemClickedListener<T> {
-    fun onItemClicked(item: T)
-}

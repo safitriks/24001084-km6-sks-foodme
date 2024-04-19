@@ -5,11 +5,12 @@ import com.example.foodme.data.model.Menu
 import com.example.foodme.utils.ViewHolderBinder
 import com.example.foodme.utils.toIndonesianFormat
 import coil.load
+import com.example.foodme.data.model.Category
 import com.example.foodme.databinding.ItemMenuListBinding
 
 class MenuListItemViewHolder(
-    private val binding: ItemMenuListBinding,
-    private val listener: OnItemClickedListener<Menu>
+    private val itemClick: (Menu) -> Unit,
+    private val binding: ItemMenuListBinding
 ): ViewHolder(binding.root), ViewHolderBinder<Menu> {
 
     override fun bind(item: Menu) {
@@ -21,7 +22,7 @@ class MenuListItemViewHolder(
             binding.tvListPrice.text = it.price.toIndonesianFormat()
             binding.tvListLocation.text= it.location
             itemView.setOnClickListener {
-                listener.onItemClicked(item)
+                itemClick(item)
             }
         }
     }

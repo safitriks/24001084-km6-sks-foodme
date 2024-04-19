@@ -20,7 +20,7 @@ import java.lang.IllegalStateException
 
 interface CartRepository {
     fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>>
-    fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>>
+    fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>,List<PriceItem>, Double>>>
     fun createCart(
         menu: Menu,
         quantity: Int,
@@ -31,11 +31,10 @@ interface CartRepository {
     fun increaseCart(item: Cart): Flow<ResultWrapper<Boolean>>
     fun setCartNotes(item: Cart): Flow<ResultWrapper<Boolean>>
     fun deleteCart(item: Cart): Flow<ResultWrapper<Boolean>>
-    fun deleteAll(): Flow<ResultWrapper<Boolean>>
+    suspend fun deleteAll(): Flow<ResultWrapper<Boolean>>
 }
 
-class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepository {
-
+class CartRepositoryImpl(private val cartDataSource : CartDataSource) : CartRepository{
     override fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>> {
         return cartDataSource.getAllCarts()
             .map {
@@ -56,12 +55,11 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
     override fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>> {
         return cartDataSource.getAllCarts()
             .map {
-                //mapping into cart list and sum the total price
                 proceed {
                     val result = it.toCartList()
                     val priceItemList =
-                        result.map { PriceItem(it.menuName, it.menuPrice * it.itemQuantity) }
-                    val totalPrice = priceItemList.sumOf { it.total }
+                        result.map{ PriceItem(it.menuName,it.menuPrice*it.itemQuantity)}
+                    val totalPrice = result.sumOf { it.menuPrice * it.itemQuantity }
                     Triple(result, priceItemList, totalPrice)
                 }
             }.map {
@@ -94,7 +92,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                 affectedRow > 0
             }
         } ?: flow {
-            emit(ResultWrapper.Error(IllegalStateException("Menu ID not found")))
+            emit(ResultWrapper.Error(IllegalStateException("menu ID not found")))
         }
     }
 
@@ -102,7 +100,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
         val modifiedCart = item.copy().apply {
             itemQuantity -= 1
         }
-        return if (modifiedCart.itemQuantity <= 0) {
+        return if (modifiedCart.itemQuantity <= 0){
             proceedFlow { cartDataSource.deleteCart(item.toCartEntity()) > 0 }
         } else {
             proceedFlow { cartDataSource.updateCart(modifiedCart.toCartEntity()) > 0 }
@@ -124,7 +122,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
         return proceedFlow { cartDataSource.deleteCart(item.toCartEntity()) > 0 }
     }
 
-    override fun deleteAll(): Flow<ResultWrapper<Boolean>> {
+    override suspend fun deleteAll(): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
             cartDataSource.deleteAll()
             true

@@ -39,4 +39,23 @@
     <string name="text_total_item">Total Price</string>
     <string name="text_btn_close">Close</string>
     <string name="text_done">Congratulations, you\'re done !</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="text_register">SIGN UP</string>
+    <string name="text_already_have_an_account_click_here">LOGIN</string>
+    <string name="text_not_registered_yet_register_here">Anda belum Registrasi</string>
+    <string name="text_log_in">LOGIN</string>
+    <string name="text_check_out_error">Checkout Error !</string>
+    <string name="text_error_password_empty">Error! Password is Empty</string>
+    <string name="text_error_password_less_than_8_char">Error ! Password less than 8 character</string>
+    <string name="text_error_email_empty">Error! Email is Empty</string>
+    <string name="text_error_email_invalid">Error! Email invalid</string>
+    <string name="text_password_does_not_match">Sorry, Password does not match..</string>
+    <string name="text_error_name_cannot_empty">Name can\'t be Empty</string>
+    <string name="text_highlight_register">Register here!</string>
+    <string name="text_highlight_login_here">Login here!</string>
+    <string name="text_logout">Logout</string>
+    <string name="text_change_name">Change Your Name</string>
+    <string name="text_change_email">Change Your Email</string>
 </resources>

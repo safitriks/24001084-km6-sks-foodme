@@ -1,7 +1,7 @@
 package com.example.foodme.data.datasource.category
 
-import com.example.foodme.data.model.Category
+import com.example.foodme.data.source.network.model.category.CategoriesResponse
 
 interface CategoryDataSource {
-    fun getCategories(): List<Category>
+    suspend fun getCategories(): CategoriesResponse
 }

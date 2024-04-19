@@ -9,16 +9,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.foodme.R
+import com.example.foodme.data.datasource.auth.FirebaseAuthDataSource
+import com.example.foodme.data.datasource.auth.FirebaseAuthDataSourceImpl
 import com.example.foodme.data.datasource.cart.CartDataSource
 import com.example.foodme.data.datasource.cart.CartDatabaseDataSource
 import com.example.foodme.data.model.Cart
 import com.example.foodme.data.repository.CartRepository
 import com.example.foodme.data.repository.CartRepositoryImpl
+import com.example.foodme.data.repository.UserRepository
+import com.example.foodme.data.repository.UserRepositoryImpl
+import com.example.foodme.data.source.firebase.FirebaseService
+import com.example.foodme.data.source.firebase.FirebaseServiceImpl
 import com.example.foodme.data.source.local.database.AppDatabase
 import com.example.foodme.databinding.FragmentCartBinding
 import com.example.foodme.presentation.checkout.CheckoutActivity
 import com.example.foodme.presentation.common.adapter.CartListAdapter
 import com.example.foodme.presentation.common.adapter.CartListener
+import com.example.foodme.presentation.login.LoginActivity
 import com.example.foodme.utils.GenericViewModelFactory
 import com.example.foodme.utils.hideKeyboard
 import com.example.foodme.utils.proceedWhen
@@ -32,7 +39,10 @@ class CartFragment : Fragment() {
         val db = AppDatabase.getInstance(requireContext())
         val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
         val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(CartViewModel(rp))
+        val service : FirebaseService = FirebaseServiceImpl()
+        val dataSource: FirebaseAuthDataSource = FirebaseAuthDataSourceImpl(service)
+        val repo: UserRepository = UserRepositoryImpl(dataSource)
+        GenericViewModelFactory.create(CartViewModel(rp, repo))
     }
 
     private val adapter: CartListAdapter by lazy {
@@ -73,8 +83,20 @@ class CartFragment : Fragment() {
 
     private fun setClickListeners() {
         binding.btnCheckout.setOnClickListener {
-            startActivity(Intent(requireContext(), CheckoutActivity::class.java))
+            if (!viewModel.isLogin()){
+                navigateToLogin()
+            } else {
+                navigateToCheckout()
+            }
         }
+    }
+
+    private fun navigateToCheckout() {
+        startActivity(Intent(requireContext(), CheckoutActivity::class.java))
+    }
+
+    private fun navigateToLogin() {
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
     }
 
     private fun observeData() {
@@ -104,6 +126,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.isVisible = true
                     binding.layoutState.tvError.text = result.exception?.message.orEmpty()
                     binding.rvCart.isVisible = false
+                    binding.btnCheckout.isEnabled = false
                 },
                 doOnEmpty = {
                     binding.layoutState.root.isVisible = true
