@@ -2,15 +2,13 @@ package com.example.foodme.presentation.profile
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.foodme.R
 import com.example.foodme.data.datasource.auth.FirebaseAuthDataSourceImpl
 import com.example.foodme.data.repository.UserRepositoryImpl
@@ -43,7 +41,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickListener()
-        observeEditMode()
         observeProfileData()
     }
 
@@ -56,11 +53,47 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setClickListener() {
-        binding.layoutHeaderProfile.ivEdit.setOnClickListener {
-            viewModel.changeEditMode()
+        binding.ivEdit.setOnClickListener {
+            binding.nameInputLayout.isEnabled = true
+            binding.emailInputLayout.isVisible = false
+            binding.ivSave.isVisible = true
+            binding.ivEdit.isVisible = false
+        }
+        binding.ivSave.setOnClickListener {
+            val username = binding.nameEditText.text.toString()
+            updateProfile(username)
         }
         binding.btnLogout.setOnClickListener {
             doLogout()
+        }
+    }
+
+    private fun updateProfile(username: String) {
+        viewModel.updateUsername(username).observe(viewLifecycleOwner){
+            it.proceedWhen(
+                doOnSuccess = {
+                    binding.pbLoadingSave.isVisible = false
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.text_success_notif),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                },
+                doOnError = {
+                    binding.pbLoadingSave.isVisible = false
+                    Toast.makeText(
+                        requireContext(),
+                        "Update Profile Failed : ${it.exception?.message.orEmpty()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.ivSave.isVisible = true
+                },
+                doOnLoading = {
+                    binding.pbLoadingSave.isVisible  = true
+                    binding.ivSave.isVisible = false
+                }
+            )
         }
     }
 
@@ -93,13 +126,5 @@ class ProfileFragment : Fragment() {
         startActivity(Intent(requireContext(), MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         })
-    }
-
-    private fun observeEditMode() {
-        viewModel.isEditMode.observe(viewLifecycleOwner) {
-            binding.emailEditText.isEnabled = it
-            binding.nameEditText.isEnabled = it
-            binding.layoutHeaderProfile.ivEdit.setImageResource(viewModel.changeIcon())
-        }
     }
 }

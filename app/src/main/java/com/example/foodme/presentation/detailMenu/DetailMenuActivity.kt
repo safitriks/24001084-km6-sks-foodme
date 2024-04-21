@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import coil.load
 import com.example.foodme.R
 import com.example.foodme.data.datasource.cart.CartDataSource
@@ -53,7 +54,7 @@ class DetailMenuActivity : AppCompatActivity() {
         binding.btnAddToCart.setOnClickListener {
             addMenuToCart()
         }
-        binding.tvLocName.setOnClickListener{
+        binding.tvAddressLoc.setOnClickListener{
             navigateToMaps()
         }
     }
@@ -66,6 +67,8 @@ class DetailMenuActivity : AppCompatActivity() {
         viewModel.addToCart().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
+                    binding.pbLoadingAddToCart.isVisible = true
+                    binding.btnAddToCart.isVisible = false
                     Toast.makeText(
                         this,
                         getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
@@ -73,11 +76,14 @@ class DetailMenuActivity : AppCompatActivity() {
                     finish()
                 },
                 doOnError = {
+                    binding.pbLoadingAddToCart.isVisible = true
+                    binding.btnAddToCart.isVisible = false
                     Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)
                         .show()
                 },
                 doOnLoading = {
-                    Toast.makeText(this, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                    binding.pbLoadingAddToCart.isVisible = true
+                    binding.btnAddToCart.isVisible = false
                 }
             )
         }
@@ -90,7 +96,7 @@ class DetailMenuActivity : AppCompatActivity() {
             }
             binding.tvMenuName.text = item.name
             binding.tvMenuDetails.text = item.details
-            binding.tvLocName.text = item.location
+            binding.tvAddressLoc.text = item.location
             binding.tvMenuPrice.text = item.price.toIndonesianFormat()
         }
     }

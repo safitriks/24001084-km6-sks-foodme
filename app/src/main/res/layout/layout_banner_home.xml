@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="10dp"
-                android:text="Pesan makanan favoritmu dan dapatkan diskon !"
+                android:text="Pesan makanan favoritmu sekarang !"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"

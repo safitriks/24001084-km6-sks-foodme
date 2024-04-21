@@ -7,7 +7,6 @@ import androidx.lifecycle.asLiveData
 import com.example.foodme.data.repository.CategoryRepository
 import com.example.foodme.data.repository.MenuRepository
 import com.example.foodme.data.repository.UserPreferenceRepository
-import com.example.foodme.data.source.local.pref.UserPreference
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(

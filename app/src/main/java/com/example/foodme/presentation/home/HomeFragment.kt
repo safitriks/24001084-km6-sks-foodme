@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodme.R
+import com.example.foodme.data.datasource.auth.FirebaseAuthDataSourceImpl
 import com.example.foodme.data.datasource.category.CategoryApiDataSource
 import com.example.foodme.data.datasource.category.CategoryDataSource
 import com.example.foodme.data.datasource.menu.MenuApiDataSource
@@ -22,6 +25,9 @@ import com.example.foodme.data.repository.MenuRepository
 import com.example.foodme.data.repository.MenuRepositoryImpl
 import com.example.foodme.data.repository.UserPreferenceRepository
 import com.example.foodme.data.repository.UserPreferenceRepositoryImpl
+import com.example.foodme.data.repository.UserRepositoryImpl
+import com.example.foodme.data.source.firebase.FirebaseService
+import com.example.foodme.data.source.firebase.FirebaseServiceImpl
 import com.example.foodme.data.source.local.pref.UserPreference
 import com.example.foodme.data.source.local.pref.UserPreferenceImpl
 import com.example.foodme.data.source.network.service.RestaurantApiService
@@ -29,6 +35,7 @@ import com.example.foodme.databinding.FragmentHomeBinding
 import com.example.foodme.presentation.detailMenu.DetailMenuActivity
 import com.example.foodme.presentation.home.adapter.category.CategoryListAdapter
 import com.example.foodme.presentation.home.adapter.menu.MenuListAdapter
+import com.example.foodme.presentation.main.MainViewModel
 import com.example.foodme.utils.GenericViewModelFactory
 import com.example.foodme.utils.proceedWhen
 
@@ -43,7 +50,20 @@ class HomeFragment : Fragment() {
         val userPref: UserPreference = UserPreferenceImpl(requireContext())
         val userDataSource: UserDataSource = UserDataSourceImpl(userPref)
         val userRepository: UserPreferenceRepository = UserPreferenceRepositoryImpl(userDataSource)
-        GenericViewModelFactory.create(HomeViewModel(categoryRepository, menuRepository, userRepository))
+        GenericViewModelFactory.create(
+            HomeViewModel(
+                categoryRepository,
+                menuRepository,
+                userRepository
+            )
+        )
+    }
+
+    private val mainViewModel : MainViewModel by activityViewModels{
+        val service : FirebaseService = FirebaseServiceImpl()
+        val dataSource = FirebaseAuthDataSourceImpl(service)
+        val repo = UserRepositoryImpl(dataSource)
+        GenericViewModelFactory.create(MainViewModel(repo))
     }
 
     override fun onCreateView(
@@ -66,6 +86,20 @@ class HomeFragment : Fragment() {
         getCategoryData()
         getMenuData(null)
         setClickAction()
+        getUsername()
+    }
+
+    private fun getUsername() {
+        if (mainViewModel.isLogin()) {
+            val username = mainViewModel.getCurrentUsername()?.fullName
+            if (username != null) {
+                binding.layoutHeader.tvName.text = getString(R.string.text_name, username)
+            } else {
+                binding.layoutHeader.tvName.text = getString(R.string.text_default_username)
+            }
+        } else {
+            binding.layoutHeader.tvName.text = getString(R.string.text_default_username)
+        }
     }
 
     private val categoryAdapter: CategoryListAdapter by lazy {
@@ -75,7 +109,7 @@ class HomeFragment : Fragment() {
     }
 
     private val menuAdapter: MenuListAdapter by lazy {
-        MenuListAdapter (viewModel.getListMode()) {
+        MenuListAdapter(viewModel.getListMode()) {
             navigateToDetail(it)
         }
     }
@@ -86,7 +120,11 @@ class HomeFragment : Fragment() {
                 doOnSuccess = {
                     it.payload?.let { data ->
                         bindMenuList(data)
+                        binding.pbLoadingCatalog.isVisible = false
                     }
+                },
+                doOnLoading = {
+                    binding.pbLoadingCatalog.isVisible = true
                 }
             )
         }
@@ -97,8 +135,13 @@ class HomeFragment : Fragment() {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let { data -> bindCategory(data) }
+                    binding.pbLoadingCategory.isVisible = false
+                },
+                doOnLoading = {
+                    binding.pbLoadingCategory.isVisible = true
                 }
             )
+
         }
     }
 
