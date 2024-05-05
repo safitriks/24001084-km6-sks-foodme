@@ -1,11 +1,18 @@
 package com.example.foodme
 
 import android.app.Application
-import com.example.foodme.data.source.local.database.AppDatabase
+import com.example.foodme.di.AppModules
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
-class App : Application(){
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        AppDatabase.getInstance(this)
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(AppModules.modules)
+        }
     }
 }

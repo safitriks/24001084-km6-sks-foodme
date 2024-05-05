@@ -37,12 +37,12 @@
                 />
 
             <TextView
-                android:id="@+id/tv_tittle_banner"
+                android:id="@+id/tv_title_banner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="20dp"
-                android:text="Disc 50 %"
+                android:text="@string/text_title_banner"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="10dp"
-                android:text="Pesan makanan favoritmu sekarang !"
+                android:text="@string/text_desc_banner"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -66,7 +66,7 @@
                 android:ellipsize="end"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_banner"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_tittle_banner"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_title_banner"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </androidx.cardview.widget.CardView>

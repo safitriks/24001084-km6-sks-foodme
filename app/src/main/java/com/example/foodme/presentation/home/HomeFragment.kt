@@ -6,79 +6,41 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foodme.R
-import com.example.foodme.data.datasource.auth.FirebaseAuthDataSourceImpl
-import com.example.foodme.data.datasource.category.CategoryApiDataSource
-import com.example.foodme.data.datasource.category.CategoryDataSource
-import com.example.foodme.data.datasource.menu.MenuApiDataSource
-import com.example.foodme.data.datasource.menu.MenuDataSource
-import com.example.foodme.data.datasource.user.UserDataSource
-import com.example.foodme.data.datasource.user.UserDataSourceImpl
 import com.example.foodme.data.model.Category
 import com.example.foodme.data.model.Menu
-import com.example.foodme.data.repository.CategoryRepository
-import com.example.foodme.data.repository.CategoryRepositoryImpl
-import com.example.foodme.data.repository.MenuRepository
-import com.example.foodme.data.repository.MenuRepositoryImpl
-import com.example.foodme.data.repository.UserPreferenceRepository
-import com.example.foodme.data.repository.UserPreferenceRepositoryImpl
-import com.example.foodme.data.repository.UserRepositoryImpl
-import com.example.foodme.data.source.firebase.FirebaseService
-import com.example.foodme.data.source.firebase.FirebaseServiceImpl
-import com.example.foodme.data.source.local.pref.UserPreference
-import com.example.foodme.data.source.local.pref.UserPreferenceImpl
-import com.example.foodme.data.source.network.service.RestaurantApiService
 import com.example.foodme.databinding.FragmentHomeBinding
 import com.example.foodme.presentation.detailMenu.DetailMenuActivity
 import com.example.foodme.presentation.home.adapter.category.CategoryListAdapter
 import com.example.foodme.presentation.home.adapter.menu.MenuListAdapter
 import com.example.foodme.presentation.main.MainViewModel
-import com.example.foodme.utils.GenericViewModelFactory
 import com.example.foodme.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels {
-        val service = RestaurantApiService.invoke()
-        val categoryDataSource: CategoryDataSource = CategoryApiDataSource(service)
-        val categoryRepository: CategoryRepository = CategoryRepositoryImpl(categoryDataSource)
-        val menuDataSource: MenuDataSource = MenuApiDataSource(service)
-        val menuRepository: MenuRepository = MenuRepositoryImpl(menuDataSource)
-        val userPref: UserPreference = UserPreferenceImpl(requireContext())
-        val userDataSource: UserDataSource = UserDataSourceImpl(userPref)
-        val userRepository: UserPreferenceRepository = UserPreferenceRepositoryImpl(userDataSource)
-        GenericViewModelFactory.create(
-            HomeViewModel(
-                categoryRepository,
-                menuRepository,
-                userRepository
-            )
-        )
-    }
-
-    private val mainViewModel : MainViewModel by activityViewModels{
-        val service : FirebaseService = FirebaseServiceImpl()
-        val dataSource = FirebaseAuthDataSourceImpl(service)
-        val repo = UserRepositoryImpl(dataSource)
-        GenericViewModelFactory.create(MainViewModel(repo))
-    }
+    private val viewModel: HomeViewModel by viewModel()
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentHomeBinding.inflate(
-            layoutInflater,
-            container,
-            false
-        )
+        binding =
+            FragmentHomeBinding.inflate(
+                layoutInflater,
+                container,
+                false,
+            )
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         setupCategory()
         setupMenu()
@@ -125,7 +87,7 @@ class HomeFragment : Fragment() {
                 },
                 doOnLoading = {
                     binding.pbLoadingCatalog.isVisible = true
-                }
+                },
             )
         }
     }
@@ -139,9 +101,8 @@ class HomeFragment : Fragment() {
                 },
                 doOnLoading = {
                     binding.pbLoadingCategory.isVisible = true
-                }
+                },
             )
-
         }
     }
 
@@ -194,7 +155,7 @@ class HomeFragment : Fragment() {
     private fun navigateToDetail(item: Menu) {
         DetailMenuActivity.startActivity(
             requireContext(),
-            item
+            item,
         )
     }
 }

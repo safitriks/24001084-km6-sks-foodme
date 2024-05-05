@@ -10,5 +10,5 @@ data class CheckoutItemPayload(
     @SerializedName("quantity")
     val qty: Int,
     @SerializedName("price")
-    val price: Double
+    val price: Double,
 )

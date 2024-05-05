@@ -4,33 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import coil.load
 import com.example.foodme.R
-import com.example.foodme.data.datasource.cart.CartDataSource
-import com.example.foodme.data.datasource.cart.CartDatabaseDataSource
 import com.example.foodme.data.model.Menu
-import com.example.foodme.data.repository.CartRepository
-import com.example.foodme.data.repository.CartRepositoryImpl
-import com.example.foodme.data.source.local.database.AppDatabase
 import com.example.foodme.databinding.ActivityDetailMenuBinding
-import com.example.foodme.utils.GenericViewModelFactory
 import com.example.foodme.utils.proceedWhen
 import com.example.foodme.utils.toIndonesianFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailMenuActivity : AppCompatActivity() {
     private val binding: ActivityDetailMenuBinding by lazy {
         ActivityDetailMenuBinding.inflate(layoutInflater)
     }
-    private val viewModel: DetailMenuViewModel by viewModels {
-        val db = AppDatabase.getInstance(this)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(
-            DetailMenuViewModel(intent?.extras, rp)
-        )
+    private val viewModel: DetailMenuViewModel by viewModel {
+        parametersOf(intent.extras)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +44,7 @@ class DetailMenuActivity : AppCompatActivity() {
         binding.btnAddToCart.setOnClickListener {
             addMenuToCart()
         }
-        binding.tvAddressLoc.setOnClickListener{
+        binding.tvAddressLoc.setOnClickListener {
             navigateToMaps()
         }
     }
@@ -71,7 +61,8 @@ class DetailMenuActivity : AppCompatActivity() {
                     binding.btnAddToCart.isVisible = false
                     Toast.makeText(
                         this,
-                        getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
+                        getString(R.string.text_add_to_cart_success),
+                        Toast.LENGTH_SHORT,
                     ).show()
                     finish()
                 },
@@ -84,7 +75,7 @@ class DetailMenuActivity : AppCompatActivity() {
                 doOnLoading = {
                     binding.pbLoadingAddToCart.isVisible = true
                     binding.btnAddToCart.isVisible = false
-                }
+                },
             )
         }
     }
@@ -113,7 +104,11 @@ class DetailMenuActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_MENU = "EXTRA_Menu"
-        fun startActivity(context: Context, menu: Menu) {
+
+        fun startActivity(
+            context: Context,
+            menu: Menu,
+        ) {
             val intent = Intent(context, DetailMenuActivity::class.java)
             intent.putExtra(EXTRA_MENU, menu)
             context.startActivity(intent)

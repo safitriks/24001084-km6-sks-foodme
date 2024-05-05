@@ -15,19 +15,20 @@ import java.lang.IllegalStateException
 
 class DetailMenuViewModel(
     private val extras: Bundle?,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
-
     val menu = extras?.getParcelable<Menu>(DetailMenuActivity.EXTRA_MENU)
-    private var url : String? = null
+    private var url: String? = null
 
-    val menuCountLiveData = MutableLiveData(0).apply {
-        postValue(0)
-    }
+    val menuCountLiveData =
+        MutableLiveData(0).apply {
+            postValue(0)
+        }
 
-    val priceLiveData = MutableLiveData<Double>().apply {
-        postValue(0.0)
-    }
+    val priceLiveData =
+        MutableLiveData<Double>().apply {
+            postValue(0.0)
+        }
 
     fun add() {
         val count = (menuCountLiveData.value ?: 0) + 1
@@ -45,7 +46,7 @@ class DetailMenuViewModel(
 
     fun getLocationUrl(): Uri? {
         url = (menu?.locationUrl.orEmpty())
-        return url?.let{ Uri.parse(it)}
+        return url?.let { Uri.parse(it) }
     }
 
     fun addToCart(): LiveData<ResultWrapper<Boolean>> {

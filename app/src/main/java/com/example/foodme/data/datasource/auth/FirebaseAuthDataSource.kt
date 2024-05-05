@@ -1,26 +1,25 @@
 package com.example.foodme.data.datasource.auth
 
-import android.net.Uri
 import com.example.foodme.data.mapper.toUser
 import com.example.foodme.data.model.User
 import com.example.foodme.data.source.firebase.FirebaseService
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.auth.userProfileChangeRequest
-import kotlinx.coroutines.tasks.await
 
 interface FirebaseAuthDataSource {
     @Throws(exceptionClasses = [Exception::class])
-    suspend fun doLogin(email: String, password: String): Boolean
+    suspend fun doLogin(
+        email: String,
+        password: String,
+    ): Boolean
 
     @Throws(exceptionClasses = [Exception::class])
-    suspend fun doRegister(fullName: String, email: String, password: String): Boolean
-
-    suspend fun updateProfile(
-        fullName: String? = null
+    suspend fun doRegister(
+        fullName: String,
+        email: String,
+        password: String,
     ): Boolean
+
+    suspend fun updateProfile(fullName: String? = null): Boolean
 
     suspend fun updatePassword(newPassword: String): Boolean
 
@@ -34,11 +33,18 @@ interface FirebaseAuthDataSource {
 }
 
 class FirebaseAuthDataSourceImpl(private val service: FirebaseService) : FirebaseAuthDataSource {
-    override suspend fun doLogin(email: String, password: String): Boolean {
+    override suspend fun doLogin(
+        email: String,
+        password: String,
+    ): Boolean {
         return service.doLogin(email, password)
     }
 
-    override suspend fun doRegister(fullName: String, email: String, password: String): Boolean {
+    override suspend fun doRegister(
+        fullName: String,
+        email: String,
+        password: String,
+    ): Boolean {
         return service.doRegister(fullName, email, password)
     }
 
@@ -54,7 +60,6 @@ class FirebaseAuthDataSourceImpl(private val service: FirebaseService) : Firebas
         return service.updateEmail(newEmail)
     }
 
-
     override suspend fun doLogout(): Boolean {
         return service.doLogout()
     }
@@ -66,5 +71,4 @@ class FirebaseAuthDataSourceImpl(private val service: FirebaseService) : Firebas
     override fun getCurrentUser(): User? {
         return service.getCurrentUser().toUser()
     }
-
 }

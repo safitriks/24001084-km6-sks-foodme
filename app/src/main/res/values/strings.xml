@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Food App</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_tab_home">Home</string>
     <string name="title_tab_cart">Cart</string>
@@ -35,16 +34,16 @@
     <string name="text_name_total_price">Total Price</string>
     <string name="order_summary">Order Summary</string>
     <string name="total_quantity">x%s\n</string>
-    <string name="text_cart_is_empty">Cart is Empty !</string>
+    <string name="text_cart_is_empty">Fill up your lonely cart with good food!</string>
     <string name="text_total_item">Total Price</string>
     <string name="text_btn_close">Close</string>
-    <string name="text_done">Congratulations, you\'re done !</string>
+    <string name="text_done">Please wait for your food...</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="text_register">SIGN UP</string>
-    <string name="text_already_have_an_account_click_here">LOGIN</string>
-    <string name="text_not_registered_yet_register_here">Anda belum Registrasi</string>
+    <string name="text_already_have_an_account_click_here">Have an account already? Login Here</string>
+    <string name="text_not_registered_yet_register_here">Not registered yet ? Register Here</string>
     <string name="text_log_in">LOGIN</string>
     <string name="text_check_out_error">Checkout Error !</string>
     <string name="text_error_password_empty">Error! Password is Empty</string>
@@ -53,8 +52,6 @@
     <string name="text_error_email_invalid">Error! Email invalid</string>
     <string name="text_password_does_not_match">Sorry, Password does not match..</string>
     <string name="text_error_name_cannot_empty">Name can\'t be Empty</string>
-    <string name="text_highlight_register">Register here!</string>
-    <string name="text_highlight_login_here">Login here!</string>
     <string name="text_logout">Logout</string>
     <string name="text_change_name">Change Your Name</string>
     <string name="text_change_email">Change Your Email</string>
@@ -62,4 +59,6 @@
     <string name="text_edit">Edit</string>
     <string name="text_success_notif">Update Profile Success</string>
     <string name="text_detail_menu">Detail Menu</string>
+    <string name="text_desc_banner">Pesan makanan favoritmu sekarang !</string>
+    <string name="text_title_banner">Disc 50 %</string>
 </resources>

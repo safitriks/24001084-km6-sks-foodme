@@ -4,6 +4,7 @@ import com.example.foodme.data.source.local.pref.UserPreference
 
 interface UserDataSource {
     fun isUsingGridMode(): Boolean
+
     fun setUsingGridMode(isUsingGridMode: Boolean)
 }
 

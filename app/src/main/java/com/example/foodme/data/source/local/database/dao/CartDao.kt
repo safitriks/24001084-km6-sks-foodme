@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.foodme.data.source.local.database.entity.CartEntity
 import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface CartDao {
     @Query("SELECT * FROM CARTS")
