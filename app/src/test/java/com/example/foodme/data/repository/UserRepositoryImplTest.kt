@@ -203,15 +203,23 @@ class UserRepositoryImplTest {
         }
     }
 
-//    @Test
-//    fun doLogout() {
-//        runTest {
-//            every { dataSource.doLogout() } returns true
-//            val actualResult = repo.doLogout()
-//            verify { dataSource.doLogout() }
-//            assertEquals(true, actualResult)
-//        }
-//    }
+    @Test
+    fun doLogout() {
+        coEvery { dataSource.doLogout() } returns true
+        runTest {
+            val result =
+                repo.doLogout().map {
+                    delay(100)
+                    it
+                }.test {
+                    delay(210)
+                    val actualData = expectMostRecentItem()
+                    assertTrue(actualData is ResultWrapper.Success)
+                }
+            coVerify { dataSource.doLogout() }
+            assertEquals(Unit, result)
+        }
+    }
 
     @Test
     fun isLoggedIn() {

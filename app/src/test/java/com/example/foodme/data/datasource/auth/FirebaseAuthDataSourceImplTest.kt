@@ -78,13 +78,15 @@ class FirebaseAuthDataSourceImplTest {
         }
     }
 
-//    @Test
-//    fun doLogout() {
-//        every { service.doLogout() } returns true
-//        val result = dataSource.doLogout()
-//        verify { service.doLogout() }
-//        assertEquals(true, result)
-//    }
+    @Test
+    fun doLogout() {
+        runTest {
+            coEvery { service.doLogout() } returns true
+            val result = dataSource.doLogout()
+            assertTrue(result)
+            coVerify { service.doLogout() }
+        }
+    }
 
     @Test
     fun isLoggedIn() {

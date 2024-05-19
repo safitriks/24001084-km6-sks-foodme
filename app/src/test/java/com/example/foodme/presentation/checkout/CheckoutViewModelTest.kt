@@ -1,6 +1,7 @@
 package com.example.foodme.presentation.checkout
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.foodme.data.model.User
 import com.example.foodme.data.repository.CartRepository
 import com.example.foodme.data.repository.MenuRepository
 import com.example.foodme.data.repository.UserRepository
@@ -13,6 +14,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -72,6 +74,10 @@ class CheckoutViewModelTest {
 
     @Test
     fun getCurrentUser() {
+        val mockUser = mockk<User>()
+        every { userRepository.getCurrentUser() } returns mockUser
+        viewModel.getCurrentUser()
+        verify { userRepository.getCurrentUser() }
     }
 
     @Test

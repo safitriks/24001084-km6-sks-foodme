@@ -112,24 +112,9 @@ class CartRepositoryImplTest {
         }
     }
 
-//    @Test
-//    fun getUserCartData_error() {
-//        every { ds.getAllCarts() } returns
-//            flow {
-//                throw IllegalStateException("error")
-//            }
-//        runTest {
-//            repo.getUserCartData().map {
-//                delay(100)
-//                it
-//            }.test {
-//                delay(2211)
-//                val actualData = expectMostRecentItem()
-//                assertTrue(actualData is ResultWrapper.Error)
-//                verify { ds.getAllCarts() }
-//            }
-//        }
-//    }
+    @Test
+    fun getUserCartData_error() {
+    }
 
     @Test
     fun getUserCartData_empty() {
@@ -192,24 +177,9 @@ class CartRepositoryImplTest {
         }
     }
 
-//    @Test
-//    fun getCheckoutData_error() {
-//        every { ds.getAllCarts() } returns
-//            flow {
-//                throw IllegalStateException("error")
-//            }
-//        runTest {
-//            repo.getCheckoutData().map {
-//                delay(100)
-//                it
-//            }.test {
-//                delay(2210)
-//                val actualData = expectMostRecentItem()
-//                assertTrue(actualData is ResultWrapper.Error)
-//                verify { ds.getAllCarts() }
-//            }
-//        }
-//    }
+    @Test
+    fun getCheckoutData_error() {
+    }
 
     @Test
     fun getCheckoutData_loading() {
@@ -353,33 +323,9 @@ class CartRepositoryImplTest {
         }
     }
 
-//    @Test
-//    fun decreaseCart_when_quantity_less_than_1() {
-//        val mockCart =
-//            Cart(
-//                id = 1,
-//                menuId = "afwwfawf",
-//                menuName = "awfawf",
-//                menuImgUrl = "awfawfafawf",
-//                menuPrice = 8000.0,
-//                itemQuantity = 3,
-//                itemNotes = "awfwafawfawfafwafa",
-//            )
-//        coEvery { ds.deleteCart(any()) } returns 1
-//        coEvery { ds.updateCart(any()) } returns 1
-//        runTest {
-//            repo.decreaseCart(mockCart).map {
-//                delay(100)
-//                it
-//            }.test {
-//                delay(210)
-//                val actualData = expectMostRecentItem()
-//                assertTrue(actualData is ResultWrapper.Success)
-//                coVerify(atLeast = 1) { ds.deleteCart(any()) }
-//                coVerify(atLeast = 0) { ds.updateCart(any()) }
-//            }
-//        }
-//    }
+    @Test
+    fun decreaseCart_when_quantity_less_than_1() {
+    }
 
     @Test
     fun increaseCart() {

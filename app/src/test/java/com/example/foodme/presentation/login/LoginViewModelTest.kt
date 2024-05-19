@@ -48,7 +48,7 @@ class LoginViewModelTest {
             flow {
                 emit(ResultWrapper.Success(true))
             }
-        viewModel.doLogin("komang@gmail.com", "komang1234")
+        viewModel.doLogin("safitri@gmail.com", "123456789")
         verify { userRepository.doLogin(any(), any()) }
     }
 }

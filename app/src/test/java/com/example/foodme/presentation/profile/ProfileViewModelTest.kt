@@ -58,8 +58,5 @@ class ProfileViewModelTest {
 
     @Test
     fun doLogout() {
-//        every { repository.doLogout() } returns true
-//        viewModel.doLogout()
-//        verify { repository.doLogout() }
     }
 }

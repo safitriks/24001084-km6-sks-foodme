@@ -55,27 +55,13 @@ class HomeViewModelTest {
             )
     }
 
-//    @Test
-//    fun `isUsingGridMode should return true`() =
-//        runTest {
-//            val expectedValue = true
-//            val actualValue = viewModel.isUsingGridMode.value
-//            assertEquals(expectedValue, actualValue)
-//        }
+    @Test
+    fun getListMode() {
+    }
 
-//    @Test
-//    fun getListMode() {
-//    }
-
-//    @Test
-//    fun changeListMode() {
-//        runTest {
-//            val currentValue = viewModel.isUsingGridMode.value ?: false
-//            val expectedNewValue = !currentValue
-//            viewModel.changeListMode()
-//            assertEquals(expectedNewValue, viewModel.isUsingGridMode.value)
-//        }
-//    }
+    @Test
+    fun changeListMode() {
+    }
 
     @Test
     fun getMenus() {

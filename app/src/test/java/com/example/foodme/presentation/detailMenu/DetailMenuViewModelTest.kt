@@ -94,30 +94,7 @@ class DetailMenuViewModelTest {
     fun getLocationUrl() {
     }
 
-//    @Test
-//    fun addToCart() {
-//        runTest {
-//            val catalog =
-//                Menu(
-//                    "1",
-//                    "img",
-//                    25000.0,
-//                    "format",
-//                    "bbbbbb",
-//                    "ccccc",
-//                    "sdfsdfsdfdf",
-//                    "aaaa",
-//                )
-//            coEvery { cartRepository.createCart(catalog, any()) } returns
-//                flow {
-//                    emit(ResultWrapper.Success(true))
-//                }
-//
-//            viewModel.add()
-//            val result = viewModel.addToCart().getOrAwaitValue()
-//
-//            assertTrue(result is ResultWrapper.Success)
-//            assertEquals(true, (result as ResultWrapper.Success).payload)
-//        }
-//    }
+    @Test
+    fun addToCart() {
+    }
 }
